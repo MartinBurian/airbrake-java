@@ -1,3 +1,32 @@
+
+Why this fork?
+---------
+
+This fork modifies airbrake-java to work with log4j2 insterad of log4j. AirbrakeAppender is replaced bu AirbrakeAppenderPlugin, which can then be user in log4j2 configuration.
+
+AirbrakeAppenderPlugin will only log ERROR and higher level messages, regardless of how low the filter is set. For now, if no Throwable is included in the message, a dummy Exception is created with the error message and is reported to Airbrake (with the stacktrace of the logger method). This behavior may be improved in the future, this being the minimum viable implementation.
+
+Configuration:
+
+    <appenders>
+        <AirbrakeAppender name="airbrake"
+                  api_key="MY_API_KEY"
+                  env="MY_ENVIRONMENT"
+                  enabled="true"
+                  url ="http://api.airbrake.io/notifier_api/v2/notices" />
+    ...
+    </appenders>
+    
+    <loggers>
+        <root level="info">
+            <appender-ref ref="somelogger" />
+            <appender-ref ref="airbrake" />
+        </root>
+    </loggers>
+
+
+The original README is left below.
+
 Airbrake Java
 =============
 
